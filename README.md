@@ -19,6 +19,14 @@ This project builds an end-to-end credit risk prediction system using the Americ
 - Initial feature engineering pipeline created
 - Customer-level feature table built
 
+### Observations
+
+- Dataset contains ~458k customers
+- Strong class imbalance (~75% non-default)
+- No missing customers between labels and transactions
+- Most customers have 10–13 monthly statements
+- Sequence data confirms time-series structure
+
 ## Next Steps
 - Validate data integrity
 - Expand feature engineering
