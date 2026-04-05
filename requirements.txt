@@ -1,0 +1,11 @@
+pandas
+numpy
+pyarrow
+google-cloud-bigquery
+google-cloud-storage
+db-dtypes
+jupyter
+matplotlib
+seaborn
+scikit-learn
+lightgbm

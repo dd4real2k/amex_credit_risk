@@ -11,14 +11,6 @@ This project builds an end-to-end credit risk prediction system using the Americ
 - Deployment (planned): FastAPI + Streamlit
 
 ## Project Structure
-amex_credit_risk/
-├── data/
-├── notebooks/
-├── sql/
-├── src/
-├── models/
-├── api/
-├── app/
 
 
 ## Current Progress
