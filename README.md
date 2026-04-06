@@ -68,7 +68,7 @@ amex_credit_risk/
 ├── .gitignore
 ├── README.md
 └── requirements.txt
-
+```
 ### How to Run Locally
 
 1. Train the model
