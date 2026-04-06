@@ -105,7 +105,7 @@ streamlit run app/streamlit_app.py
 ### 🔹 Overview
 
 <p align="center">
-  <img src="reports/figures/dashboard.png" width="900"/>
+  <img src="reports/figures/dashboard.png" width="900">
 </p>
 
 ---
@@ -113,7 +113,7 @@ streamlit run app/streamlit_app.py
 ### 🔹 Threshold Tuning
 
 <p align="center">
-  <img src="reports/figures/threshold_metrics.png" width="900"/>
+  <img src="reports/figures/threshold_metrics.png" width="900">
 </p>
 
 ---
@@ -121,7 +121,7 @@ streamlit run app/streamlit_app.py
 ### 🔹 Feature Importance
 
 <p align="center">
-  <img src="reports/figures/feature_importance.png" width="900"/>
+  <img src="reports/figures/feature_importance.png" width="900">
 </p>
 
 ## Future Improvements
