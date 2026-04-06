@@ -32,6 +32,7 @@ This system can be used to:
 - Enable risk segmentation (Low / Medium / High / Critical)
 
 ## Architecture
+```test
 Raw Data (CSV)
    ↓
 Google BigQuery (raw tables)
@@ -47,19 +48,20 @@ Model Artifacts (models/)
 FastAPI (prediction service)
    ↓
 Streamlit Dashboard (UI)
-
+```
 ## Project Structure
+
 amex_credit_risk/
 ├── data/
 │   ├── raw/
 │   ├── interim/
 │   └── processed/
 ├── models/                     # trained models + artifacts
-├── notebooks/                 # exploration + validation
-├── sql/                       # feature engineering pipeline
-├── src/                       # training + prediction logic
-├── api/                       # FastAPI app
-├── app/                       # Streamlit dashboard
+├── notebooks/                  # exploration + validation
+├── sql/                        # feature engineering pipeline
+├── src/                        # training + prediction logic
+├── api/                        # FastAPI app
+├── app/                        # Streamlit dashboard
 ├── reports/
 │   └── figures/
 ├── tests/
@@ -68,18 +70,21 @@ amex_credit_risk/
 └── requirements.txt
 
 ### How to Run Locally
-```bash
+
 1. Train the model
+```bash
 python -m src.train
-
+```
 2. Run FastAPI
-
+```bash
 uvicorn api.main:app --reload
-
+```
 Open API docs:
+```bash
 http://127.0.0.1:8000/docs
-
+```
 Run the Streamlit Dashboard
+```bash
 streamlit run app/streamlit_app.py
 ```
 
@@ -114,4 +119,5 @@ streamlit run app/streamlit_app.py
 - Cloud deployment (Streamlit Cloud / Render)
 
 ## Author
-**Daniel Diala**[GitHub Portfolio](https://github.com/dd4real2k)
+**Daniel Diala**
+[GitHub Portfolio](https://github.com/dd4real2k)
