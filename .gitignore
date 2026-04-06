@@ -30,6 +30,11 @@ models/*.json
 reports/figures/*
 !reports/figures/.gitkeep
 
+# Allow these specific images
+!reports/figures/dashboard.png
+!reports/figures/threshold.png
+!reports/figures/importance.png
+
 # OS files
 .DS_Store
 Thumbs.db
