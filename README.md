@@ -96,9 +96,15 @@ streamlit run app/streamlit_app.py
 - Feature importance for explainability
 
 ## Dashboard Preview
-![Dashboard](reports/figures/dashboard.png)
-![Threshold Metrics](reports/figures/threshold.png)
-![Feature Importance](reports/figures/importance.png)
+
+### Overview
+![Dashboard Overview](reports/figures/dashboard_overview.png)
+
+### Threshold Tuning
+![Threshold Metrics](reports/figures/threshold_metrics.png)
+
+### Feature Importance
+![Feature Importance](reports/figures/feature_importance.png)
 
 ## Future Improvements
 - SHAP-based explainability
