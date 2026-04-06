@@ -10,6 +10,9 @@ The system identifies customers at high risk of default and enables **proactive 
 - Deployable Prediction Services via FastAPI
 - Interactive Dashboard using Streamlit
 
+```md
+**Tech Stack:** BigQuery, SQL, Python, LightGBM, FastAPI, Streamlit
+
 ## Feature Engineering
 
 Feature engineering is performed in BigQuery using SQL and includes:
@@ -78,6 +81,7 @@ FastAPI (prediction service)
 Streamlit Dashboard (UI)
 ```
 ## Project Structure
+```md
 ```test
 amex_credit_risk/
 ├── data/
@@ -107,14 +111,21 @@ python -m src.train
 ```bash
 uvicorn api.main:app --reload
 ```
-Open API docs:
+API docs:
 ```bash
 http://127.0.0.1:8000/docs
 ```
-Run the Streamlit Dashboard
+3. Run the Streamlit Dashboard
 ```bash
 streamlit run app/streamlit_app.py
 ```
+
+## Testing
+
+Run tests using:
+
+```bash
+pytest
 
 ## Key Features
 - End-to-end ML pipeline (data → model → API → UI)
@@ -162,3 +173,8 @@ streamlit run app/streamlit_app.py
 ## Author
 **Daniel Diala**
 [GitHub Portfolio](https://github.com/dd4real2k)
+
+```md
+## 📄 License
+
+This project is licensed under the MIT License.
