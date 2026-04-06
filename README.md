@@ -68,11 +68,12 @@ amex_credit_risk/
 └── requirements.txt
 
 ### How to Run Locally
-1. Train the model
 ```bash
+1. Train the model
 python -m src.train
 
 2. Run FastAPI
+
 uvicorn api.main:app --reload
 
 Open API docs:
@@ -107,5 +108,4 @@ streamlit run app/streamlit_app.py
 - Cloud deployment (Streamlit Cloud / Render)
 
 ## Author
-[GitHub Portfolio](https://github.com/dd4real2k)
-Daniel Diala
+**Daniel Diala**[GitHub Portfolio](https://github.com/dd4real2k)

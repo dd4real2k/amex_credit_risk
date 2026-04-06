@@ -30,7 +30,7 @@ def load_artifacts():
 
 
 def prepare_input_dataframe(payload: dict, feature_columns: list[str]) -> pd.DataFrame:
-    row = {col: payload.get(col, -999) for col in feature_columns}
+    row = {col: payload.get(col, -999) if payload.get(col, None) not in [None, ""] else -999 for col in feature_columns}
     df = pd.DataFrame([row])
     return df
 
