@@ -12,7 +12,7 @@ The system identifies customers at high risk of default and enables **proactive 
 
 ```md
 **Tech Stack:** BigQuery, SQL, Python, LightGBM, FastAPI, Streamlit
-
+```
 ## Feature Engineering
 
 Feature engineering is performed in BigQuery using SQL and includes:
