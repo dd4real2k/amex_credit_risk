@@ -11,7 +11,7 @@ The system identifies customers at high risk of default and enables **proactive 
 - Interactive Dashboard using Streamlit
 
 ```md
-**Tech Stack:** BigQuery, SQL, Python, LightGBM, FastAPI, Streamlit
+Tech Stack: BigQuery, SQL, Python, LightGBM, FastAPI, Streamlit
 ```
 ## Feature Engineering
 
@@ -82,7 +82,6 @@ Streamlit Dashboard (UI)
 ```
 ## Project Structure
 ```md
-```test
 amex_credit_risk/
 ├── data/
 │   ├── raw/
@@ -126,7 +125,7 @@ Run tests using:
 
 ```bash
 pytest
-
+```
 ## Key Features
 - End-to-end ML pipeline (data → model → API → UI)
 - BigQuery-based scalable feature engineering
@@ -139,7 +138,7 @@ pytest
     - Critical
 - Feature importance for explainability
 
-## 📸 Dashboard Preview
+## Dashboard Preview
 
 ### 🔹 Overview
 
@@ -175,6 +174,7 @@ pytest
 [GitHub Portfolio](https://github.com/dd4real2k)
 
 ```md
-## 📄 License
+License
 
 This project is licensed under the MIT License.
+```
