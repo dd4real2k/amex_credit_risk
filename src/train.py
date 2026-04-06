@@ -1,32 +1,45 @@
 from pathlib import Path
+from typing import Optional
 
 import joblib
 import pandas as pd
-from pandas.api.types import is_numeric_dtype
 from google.cloud import bigquery
-from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LogisticRegression
 from lightgbm import LGBMClassifier
+from pandas.api.types import is_numeric_dtype
+from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import train_test_split
 
-from src.evaluate import evaluate_classifier, threshold_table, save_metrics, print_diagnostics
+from src.evaluate import (
+    evaluate_classifier,
+    print_diagnostics,
+    save_metrics,
+    threshold_table,
+)
 
 PROJECT_ID = "amex-46887"
 DATASET_ID = "amex_risk"
 TABLE_NAME = "model_dataset_v2"
 MODELS_DIR = Path("models")
+BQ_LOCATION = "US"
+MODEL_VERSION = "v1"
+
+ROOT_DIR = Path(__file__).resolve().parents[1]
+MODELS_DIR = ROOT_DIR / "models" / MODEL_VERSION
+
 
 
 def load_training_data() -> pd.DataFrame:
-    client = bigquery.Client(project=PROJECT_ID, location="US")
+    """Load the engineered training dataset from BigQuery."""
+    client = bigquery.Client(project=PROJECT_ID, location=BQ_LOCATION)
     query = f"""
     SELECT *
     FROM `{PROJECT_ID}.{DATASET_ID}.{TABLE_NAME}`
     """
-    df = client.query(query).to_dataframe()
-    return df
+    return client.query(query).to_dataframe()
 
 
-def build_feature_matrix(df: pd.DataFrame):
+def build_feature_matrix(df: pd.DataFrame) -> tuple[pd.DataFrame, pd.Series]:
+    """Build a clean numeric feature matrix and target vector."""
     drop_cols = [
         "customer_ID",
         "target",
@@ -40,12 +53,14 @@ def build_feature_matrix(df: pd.DataFrame):
     numeric_cols = [col for col in X.columns if is_numeric_dtype(X[col])]
     X = X[numeric_cols].copy()
 
+    # Simple missing value handling for baseline modelllling
     X = X.fillna(-999)
 
     return X, y
 
 
-def train_logistic_regression(X_train, y_train):
+def train_logistic_regression(X_train: pd.DataFrame, y_train: pd.Series) -> LogisticRegression:
+    """Train the baseline Logistic Regression model."""
     model = LogisticRegression(
         max_iter=2000,
         class_weight="balanced",
@@ -56,7 +71,8 @@ def train_logistic_regression(X_train, y_train):
     return model
 
 
-def train_lightgbm(X_train, y_train):
+def train_lightgbm(X_train: pd.DataFrame, y_train: pd.Series) -> LGBMClassifier:
+    """Train the LightGBM model."""
     model = LGBMClassifier(
         n_estimators=300,
         learning_rate=0.05,
@@ -69,10 +85,17 @@ def train_lightgbm(X_train, y_train):
     return model
 
 
-def save_artifacts(best_model, feature_columns, metrics, threshold_df, feature_importance_df=None):
+def save_artifacts(
+    best_model,
+    feature_columns: list[str],
+    metrics: dict,
+    threshold_df: pd.DataFrame,
+    feature_importance_df: Optional[pd.DataFrame] = None
+) -> None:
+    """Save model artifacts for deployment."""
     MODELS_DIR.mkdir(parents=True, exist_ok=True)
 
-    joblib.dump(best_model, MODELS_DIR / "best_model.pkl")
+    joblib.dump(best_model, MODELS_DIR / "model.pkl")
     joblib.dump(feature_columns, MODELS_DIR / "feature_columns.pkl")
 
     save_metrics(metrics, MODELS_DIR / "metrics.json")
@@ -112,9 +135,11 @@ def main():
     lgb_probs = lgb_model.predict_proba(X_valid)[:, 1]
     lgb_metrics = evaluate_classifier(y_valid, lgb_preds, lgb_probs, "LightGBM")
 
-    results_df = pd.DataFrame([log_metrics, lgb_metrics]).sort_values("roc_auc", ascending=False)
+    results_df = pd.DataFrame([log_metrics, lgb_metrics]).sort_values(
+        "roc_auc", ascending=False
+    )
     print("\nModel comparison:")
-    print(results_df)
+    print(results_df.to_string(index=False))
 
     print("\nLightGBM diagnostics:")
     print_diagnostics(y_valid, lgb_preds)
@@ -128,23 +153,33 @@ def main():
         }
     ).sort_values("importance", ascending=False)
 
+    if lgb_metrics["roc_auc"] >= log_metrics["roc_auc"]:
+        best_model = lgb_model
+        best_model_name = "LightGBM"
+        best_feature_importance_df = feature_importance_df
+    else:
+        best_model = log_model
+        best_model_name = "Logistic Regression"
+        best_feature_importance_df = None
+
     metrics_payload = {
         "logistic_regression": log_metrics,
         "lightgbm": lgb_metrics,
-        "best_model": "LightGBM" if lgb_metrics["roc_auc"] >= log_metrics["roc_auc"] else "Logistic Regression",
+        "best_model": best_model_name,
+        "model_version": MODEL_VERSION,
+        "training_table": f"{PROJECT_ID}.{DATASET_ID}.{TABLE_NAME}",
+        "n_features": len(X.columns),
     }
-
-    best_model = lgb_model if lgb_metrics["roc_auc"] >= log_metrics["roc_auc"] else log_model
 
     save_artifacts(
         best_model=best_model,
         feature_columns=list(X.columns),
         metrics=metrics_payload,
         threshold_df=threshold_df,
-        feature_importance_df=feature_importance_df if best_model == lgb_model else None,
+        feature_importance_df=best_feature_importance_df,
     )
 
-    print("\nArtifacts saved in models/")
+    print(f"\nArtifacts saved to: {MODELS_DIR}")
 
 if __name__ == "__main__":
     main()

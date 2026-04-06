@@ -10,6 +10,34 @@ The system identifies customers at high risk of default and enables **proactive 
 - Deployable Prediction Services via FastAPI
 - Interactive Dashboard using Streamlit
 
+## Feature Engineering
+
+Feature engineering is performed in BigQuery using SQL and includes:
+
+- **Aggregation features:** mean, min, max, std
+- **Temporal features:** latest, first, delta (trend)
+- **Missingness features:** null counts and percentages
+- **Behavioural signals:** range and volatility
+- **History features:** number of statements and time span
+
+These features capture both customer behaviour and temporal patterns.
+
+## Model Choice
+
+Two models were evaluated:
+
+- Logistic Regression (baseline)
+- LightGBM (final model)
+
+LightGBM was selected because:
+
+- superior performance on tabular data
+- handles missing values effectively
+- captures non-linear relationships
+- efficient training on large datasets
+
+Final model: **LightGBM**
+
 ## Results
 | Model               | ROC-AUC   | Accuracy  | Precision | Recall | F1        |
 | ------------------- | --------- | --------- | --------- | ------ | --------- |

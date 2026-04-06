@@ -1,4 +1,5 @@
 import sys
+from typing import List
 from pathlib import Path
 
 ROOT_DIR = Path(__file__).resolve().parents[1]
@@ -20,6 +21,17 @@ app = FastAPI(
 class PredictionPayload(BaseModel):
     features: Dict[str, Any]
 
+class BusinessInput(BaseModel):
+    balance: float
+    payments: float
+    delinquency: float
+
+def map_business_to_features(data):
+    return {
+        "P_2_latest": data.balance,
+        "B_11_latest": data.payments,
+        "D_39_latest": data.delinquency,
+    }
 
 @app.get("/health")
 def health():
@@ -46,3 +58,15 @@ def metadata():
 @app.post("/predict")
 def predict(payload: PredictionPayload):
     return predict_single(payload.features)
+
+@app.post("/predict/business")
+def predict_business(input: BusinessInput):
+    features = map_business_to_features(input)
+    return predict_single(features)
+
+@app.post("/predict/batch")
+def predict_batch(payload: List[dict]):
+    results = []
+    for item in payload:
+        results.append(predict_single(item))
+    return results

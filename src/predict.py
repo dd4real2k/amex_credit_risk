@@ -3,11 +3,14 @@ import json
 import joblib
 import pandas as pd
 
+MODEL_VERSION = "v1"
 
 ROOT_DIR = Path(__file__).resolve().parents[1]
-MODELS_DIR = ROOT_DIR / "models"
+MODELS_DIR = ROOT_DIR / "models" / MODEL_VERSION
 
-MODEL_PATH = MODELS_DIR / "best_model.pkl"
+MODELS_DIR = ROOT_DIR / "models" / MODEL_VERSION
+
+MODEL_PATH = MODELS_DIR / "model.pkl"
 FEATURES_PATH = MODELS_DIR / "feature_columns.pkl"
 METRICS_PATH = MODELS_DIR / "metrics.json"
 THRESHOLDS_PATH = MODELS_DIR / "threshold_metrics.csv"
@@ -15,6 +18,13 @@ IMPORTANCE_PATH = MODELS_DIR / "feature_importance.csv"
 
 
 def load_artifacts():
+    if not MODEL_PATH.exists():
+        raise FileNotFoundError(f"Model file not found at {MODEL_PATH}")
+
+    if not FEATURES_PATH.exists():
+        raise FileNotFoundError(f"Feature columns file not found at {FEATURES_PATH}")
+
+
     model = joblib.load(MODEL_PATH)
     feature_columns = joblib.load(FEATURES_PATH)
 
@@ -30,9 +40,11 @@ def load_artifacts():
 
 
 def prepare_input_dataframe(payload: dict, feature_columns: list[str]) -> pd.DataFrame:
-    row = {col: payload.get(col, -999) if payload.get(col, None) not in [None, ""] else -999 for col in feature_columns}
-    df = pd.DataFrame([row])
-    return df
+    row = {}
+    for col in feature_columns:
+        value = payload.get(col, None)
+        row[col] = -999 if value in (None, "") else value
+    return pd.DataFrame([row])
 
 
 def score_to_risk_band(score: float) -> str:

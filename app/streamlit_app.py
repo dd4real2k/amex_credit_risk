@@ -167,7 +167,7 @@ with tab1:
                 "F1": safe_metric(metrics, "lightgbm", "f1"),
             },
         ])
-        st.dataframe(summary_df, use_container_width=True)
+        st.dataframe(summary_df, width="stretch")
 
     with c2:
         st.subheader("Interpretation")
@@ -261,7 +261,7 @@ with tab3:
         ax.set_ylabel("")
         st.pyplot(fig)
 
-        st.dataframe(importance_df.head(20), use_container_width=True)
+        st.dataframe(importance_df.head(20), width="stretch")
     else:
         st.info("Feature importance file not available.")
 
@@ -278,7 +278,7 @@ with tab4:
         st.metric("Recommended Threshold", f"{recommended_threshold:.2f}")
         st.caption("Recommended here as the best F1 operating point on the saved validation results.")
 
-        st.dataframe(display_df, use_container_width=True)
+        st.dataframe(display_df, width="stretch")
 
         fig, ax = plt.subplots(figsize=(8, 5))
         ax.plot(display_df["threshold"], display_df["precision"], label="Precision")
