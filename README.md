@@ -105,7 +105,7 @@ streamlit run app/streamlit_app.py
 ### 🔹 Overview
 
 <p align="center">
-  <img src="reports/figures/dashboard.png" width="900">
+  <img src="reports/figures/Dashboard.png" width="900">
 </p>
 
 ---
