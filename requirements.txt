@@ -12,3 +12,7 @@ lightgbm
 joblib
 tqdm
 shap
+fastapi
+uvicorn
+streamlit
+pydantic

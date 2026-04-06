@@ -35,5 +35,25 @@ amex_credit_risk/
 └── requirements.txt
 ```
 
+## Deployment
+
+### Run the FastAPI app
+```bash
+uvicorn api.main:app --reload
+
+## Run the Streamlit dashboard
+streamlit run app/streamlit_app.py
+
+```
+## Local test checklist
+
+Run these in order:
+
+```bash
+python -m src.train
+uvicorn api.main:app --reload
+streamlit run app/streamlit_app.py
+```
+
 ## Author
 Daniel Diala
