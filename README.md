@@ -50,7 +50,7 @@ FastAPI (prediction service)
 Streamlit Dashboard (UI)
 ```
 ## Project Structure
-
+```test
 amex_credit_risk/
 ├── data/
 │   ├── raw/
