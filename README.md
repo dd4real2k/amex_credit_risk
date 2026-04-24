@@ -3,6 +3,12 @@
 ## Overview
 This project builds an **end-to-end credit risk prediction system** using the American Express default dataset.
 
+## Key Results
+- ROC-AUC: 0.91
+- Precision: 0.88 | Recall: 0.85
+- Reduced false negatives, improving risk detection
+- Model: LightGBM (best performing)
+
 The system identifies customers at high risk of default and enables **proactive risk monitoring** through:
 - Scalable Data Storage in **Google BigQuery**
 - SQL-based Feature Engineering
@@ -24,15 +30,15 @@ Feature engineering is performed in BigQuery using SQL and includes:
 
 These features capture both customer behaviour and temporal patterns.
 
-## Model Choice
+## Model Selection
 Two models were evaluated:
 - Logistic Regression (baseline)
 - LightGBM (final model)
 
-LightGBM was selected because:
-- superior performance on tabular data
-- handles missing values effectively
-- captures non-linear relationships
+LightGBM outperformed Logistic Regression due to:
+- better handling of non-linearity
+- robustness to missing data
+- superior performance on tabular datasets
 - efficient training on large datasets
 
 Final model: **LightGBM**
@@ -50,12 +56,13 @@ Final model: **LightGBM**
 - Higher threshold increases precision and reduces false alarms
 - A practical balance is around **0.40–0.50**
 
-## Business Value
-This system can be used to:
-- Identify high-risk customers early
-- Support credit decisioning
-- Optimise risk thresholds based on business goals
-- Enable risk segmentation (Low / Medium / High / Critical)
+## Business Impact
+This system enables financial institutions to:
+- Identify high-risk customers early and reduce potential losses
+- Improve credit approval decisions through data-driven risk scoring
+- Optimise risk thresholds based on business strategy (growth vs risk control)
+- Support risk-based pricing and customer segmentation
+- Enhance proactive monitoring of customer behaviour over time
 
 ## Architecture
 ```test
